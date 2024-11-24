@@ -42,7 +42,7 @@ plugins:
   - name: rate-limiting
     service: user-serv
     config:
-      minute: 100
+      minute: 10000
       limit_by: ip
       policy: local
       fault_tolerant: true
@@ -65,7 +65,7 @@ plugins:
   - name: rate-limiting
     service: cart-serv
     config:
-      minute: 100
+      minute: 10000
       limit_by: ip
       policy: local
       fault_tolerant: true
@@ -88,7 +88,7 @@ plugins:
   - name: rate-limiting
     service: product-serv
     config:
-      minute: 100
+      minute: 10000
       limit_by: ip
       policy: local
       fault_tolerant: true
