@@ -1,0 +1,95 @@
+_format_version: "3.0"
+services:
+  - name: user-serv
+    url: http://dongyi-user-serv.zeabur.internal:8080
+    routes:
+      - name: route1
+        protocols: ["http", "https"]
+        paths: ["/user"]
+        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+
+  - name: cart-serv
+    url: http://dongyi-cart-serv.zeabur.internal:8080
+    routes:
+      - name: route2
+        protocols: ["http", "https"]
+        paths: ["/cart"]
+        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+
+  - name: product-serv
+    url: http://dongyi-product-serv.zeabur.internal:8080
+    routes:
+      - name: route3
+        protocols: ["http", "https"]
+        paths: ["/product"]
+        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+
+plugins:
+  - name: cors
+    service: user-serv
+    config:
+      origins: ["*"]
+      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Authorization
+      credentials: true
+      max_age: 3600
+
+  - name: rate-limiting
+    service: user-serv
+    config:
+      minute: 100
+      limit_by: ip
+      policy: local
+      fault_tolerant: true
+      hide_client_headers: false
+
+  - name: cors
+    service: cart-serv
+    config:
+      origins: ["*"]
+      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Authorization
+      credentials: true
+      max_age: 3600
+
+  - name: rate-limiting
+    service: cart-serv
+    config:
+      minute: 100
+      limit_by: ip
+      policy: local
+      fault_tolerant: true
+      hide_client_headers: false
+
+  - name: cors
+    service: product-serv
+    config:
+      origins: ["*"]
+      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Authorization
+      credentials: true
+      max_age: 3600
+
+  - name: rate-limiting
+    service: product-serv
+    config:
+      minute: 100
+      limit_by: ip
+      policy: local
+      fault_tolerant: true
+      hide_client_headers: false
