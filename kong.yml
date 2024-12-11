@@ -17,7 +17,7 @@ services:
         methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
 
   - name: product-serv
-    url: http://dongyi-product-serv.zeabur.internal:8080
+    url: https://dongyi-product.hnd1.zeabur.app
     routes:
       - name: route3
         protocols: ["http", "https"]
