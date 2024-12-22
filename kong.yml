@@ -22,7 +22,7 @@ services:
       - name: route3
         protocols: ["http", "https"]
         paths: ["/product"]
-        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE", "PUT"]
   
   - name: order-serv
     url: http://dongyi-order-serv.zeabur.internal:8080
@@ -91,7 +91,7 @@ plugins:
     service: product-serv
     config:
       origins: ["*"]
-      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE", "PUT"]
       headers:
         - Accept
         - Authorization
