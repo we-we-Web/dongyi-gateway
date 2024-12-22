@@ -32,6 +32,14 @@ services:
         paths: ["/order"]
         methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
 
+  - name: ads-serv
+    url: http://dongyi-ads-serv.zeabur.internal:8080
+    routes:
+      - name: route5
+        protocols: ["http", "https"]
+        paths: ["/ads"]
+        methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+
 plugins:
   - name: cors
     service: user-serv
@@ -118,6 +126,29 @@ plugins:
 
   - name: rate-limiting
     service: order-serv
+    config:
+      minute: 10000
+      limit_by: ip
+      policy: local
+      fault_tolerant: true
+      hide_client_headers: false
+
+  - name: cors
+    service: ads-serv
+    config:
+      origins: ["*"]
+      methods: ["GET", "POST", "PATCH", "OPTIONS", "DELETE"]
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+      exposed_headers:
+        - Authorization
+      credentials: true
+      max_age: 3600
+
+  - name: rate-limiting
+    service: ads-serv
     config:
       minute: 10000
       limit_by: ip
